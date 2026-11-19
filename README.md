@@ -41,6 +41,56 @@ additional vulnerabilities will be flagged as time goes on.
 If you encounter a bug, or would like to request additional
 features or security checks, please open an issue!
 
+---
+
+## 💻 System Requirements / Requisitos de Sistema
+
+### 🇺🇸 English — Minimum & Recommended Configuration
+
+**Sobelow** runs on the **Elixir / Erlang (BEAM)** runtime to perform static security analysis (SAST) on Phoenix applications, supporting three hardware profiles based on project scale and CI/CD usage:
+
+| Resource | 🟢 Minimum (Small/Medium Phoenix App — Local Scan) | 🟡 Intermediate (Large Phoenix Umbrella / CI Pipeline) | 🔵 Recommended (Multi-App Monorepo + Continuous SAST) |
+| :--- | :--- | :--- | :--- |
+| **CPU** | **1 to 2 vCPUs** (`x86_64` / `arm64`) | **2 to 4 vCPUs** (`x86_64` / `arm64`) | **4+ vCPUs** (`x86_64` / `arm64`) |
+| **RAM** | **512 MB to 1 GB RAM** | **2 GB to 4 GB RAM** | **4 GB to 8 GB RAM** |
+| **Storage (SSD)** | **300 MB free** (Erlang/OTP + Elixir + Sobelow escript) | **1 GB free** (Mix `_build/` cache + Hex packages) | **2 GB+ SSD** (fast Mix compilation & AST parsing) |
+| **GPU (Optional)** | Not required | Not required | Not required |
+| **Operating System** | Linux (Ubuntu/Debian/Alpine), macOS 12+, or Windows 10/11 | Linux (CI runner / Docker `elixir` image), macOS, or Windows | Ubuntu 24.04 LTS, macOS 13+, or Official Elixir Docker Image |
+
+#### 📦 Resource Usage by Architecture Component
+- **Erlang BEAM VM & Elixir Runtime**: ~80 MB to 200 MB base RAM footprint.
+- **Sobelow Static AST Analyzer (`mix sobelow` / standalone `escript` + `Jason` JSON output)**: ~50 MB to 300 MB RAM depending on the number of Phoenix controllers, `.eex` templates, routers, and configuration modules inspected.
+- **Mix Compilation & Dependency Check (`mix.exs` / `mix.lock`)**: ~200 MB to 1 GB RAM during initial target project compilation when executed as a Mix `:dev` dependency.
+
+#### 🛠️ Software Dependencies
+- **Core Runtime**: `Elixir >= 1.4` (recommended `1.14+`) and compatible `Erlang/OTP` (`BEAM` VM with `:logger`, `:eex`, `:inets`)
+- **Build & Package Tooling**: `Mix` and `Hex` (`mix local.hex`)
+- **Library Dependencies (`mix.exs`)**: `jason ~> 1.0` (JSON output formatting), `ex_doc ~> 0.20` (development documentation only)
+
+### 🇧🇷 Português (BR) — Configuração Mínima & Recomendada
+
+O **Sobelow** executa sobre o runtime **Elixir / Erlang (BEAM)** para realizar análise estática de segurança (SAST) em aplicações Phoenix, operando em três perfis de hardware conforme o porte do projeto e o uso em pipelines CI/CD:
+
+| Recurso | 🟢 Mínimo (App Phoenix Pequeno/Médio — Scan Local) | 🟡 Intermediário (Projeto Umbrella Grande / Pipeline CI) | 🔵 Recomendado (Monorepo Multi-App + SAST Contínuo) |
+| :--- | :--- | :--- | :--- |
+| **CPU** | **1 a 2 vCPUs** (`x86_64` / `arm64`) | **2 a 4 vCPUs** (`x86_64` / `arm64`) | **4+ vCPUs** (`x86_64` / `arm64`) |
+| **Memória RAM** | **512 MB a 1 GB RAM** | **2 GB a 4 GB RAM** | **4 GB a 8 GB RAM** |
+| **Armazenamento (SSD)** | **300 MB livres** (Erlang/OTP + Elixir + escript Sobelow) | **1 GB livre** (cache Mix `_build/` + pacotes Hex) | **2 GB+ SSD** (compilação Mix rápida e análise AST) |
+| **GPU (Opcional)** | Não necessária | Não necessária | Não necessária |
+| **Sistema Operacional** | Linux (Ubuntu/Debian/Alpine), macOS 12+ ou Windows 10/11 | Linux (Runner CI / imagem Docker `elixir`), macOS ou Windows | Ubuntu 24.04 LTS, macOS 13+ ou Imagem Docker Oficial Elixir |
+
+#### 📦 Consumo por Componente da Arquitetura
+- **Erlang BEAM VM & Runtime Elixir**: ~80 MB a 200 MB de RAM base.
+- **Analisador Estático AST Sobelow (`mix sobelow` / `escript` standalone + saída JSON via `Jason`)**: ~50 MB a 300 MB de RAM conforme a quantidade de controllers Phoenix, templates `.eex`, routers e arquivos de configuração analisados.
+- **Compilação Mix & Inspeção de Dependências (`mix.exs` / `mix.lock`)**: ~200 MB a 1 GB de RAM durante a compilação inicial do projeto alvo ao rodar como dependência `:dev` do Mix.
+
+#### 🛠️ Dependências de Software
+- **Runtime Core**: `Elixir >= 1.4` (recomendado `1.14+`) e `Erlang/OTP` compatível (`BEAM` VM com `:logger`, `:eex`, `:inets`)
+- **Ferramentas de Build & Pacotes**: `Mix` e `Hex` (`mix local.hex`)
+- **Dependências do Projeto (`mix.exs`)**: `jason ~> 1.0` (formatação de saída JSON), `ex_doc ~> 0.20` (apenas documentação em desenvolvimento)
+
+---
+
 ## Installation
 
 To use Sobelow, you can add it to your application's dependencies.
